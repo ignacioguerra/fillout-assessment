@@ -17,12 +17,10 @@ function Button({ children, variant = 'default', PrependIcon }: ButtonProps) {
       [.variant-tonal]:not-active:not-focus-visible:shadow-none
       variant-${variant}
     `}>
-      <span className="flex items-center rounded-lg gap-1.5 pl-2.5 pr-3 py-1.25 transition-all duration-100
+      <span className="flex items-center rounded-lg gap-1.5 pl-2.5 pr-3 py-1.25 transition-all duration-100 h-full w-full
         bg-white hover:bg-gray-50 group-focus-visible:bg-white active:bg-white
-        
         group-[.variant-tonal]:group-not-active:group-not-focus-visible:bg-gray-300/15
         group-[.variant-tonal]:group-not-active:group-not-focus-visible:group-hover:bg-gray-300/35
-        
         group-active:duration-initial
       ">
         {PrependIcon && <span className="text-xl text-primary transition-all duration-100
