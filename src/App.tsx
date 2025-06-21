@@ -1,34 +1,33 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import Button from './components/common/Button'
+import { IoAdd, IoDocumentTextOutline } from "react-icons/io5";
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-      <h1 className="text-3xl font-bold underline uppercase">Hello World</h1>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="flex flex-col gap-5 p-5 min-h-[100vh]">
+        <div className="flex-1 bg-gray-100/50 rounded-2xl">
+          
+        </div>
+        <div className="flex justify-start">
+          <div className="flex gap-5 relative">
+            <div className="absolute border-t-1 border-gray-200 border-dashed top-1/2 left-0 right-0"></div>
+            <div className="flex gap-5 relative">
+              <Button PrependIcon={IoDocumentTextOutline}>Info</Button>
+              <Button PrependIcon={IoDocumentTextOutline} variant='tonal'>Info</Button>
+              <Button PrependIcon={IoDocumentTextOutline} variant='tonal'>Info</Button>
+              <Button PrependIcon={IoDocumentTextOutline} variant='tonal'>Info</Button>
+            </div>
+            <div className="relative">
+              <Button>
+                <span className="flex items-center gap-1.5">
+                  <IoAdd className="text-lg" /> Add page
+                </span>
+              </Button>
+            </div>
+          </div>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
