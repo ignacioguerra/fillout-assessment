@@ -2,6 +2,8 @@ import Button from './common/Button'
 import { IoAdd } from "react-icons/io5";
 import type { PageList } from '../types/pages';
 import SortableContainer from './common/SortableContainer';
+import ButtonGroup from './common/ButtonGroup';
+import { BiDotsVerticalRounded } from 'react-icons/bi';
 
 
 function PageNavigation(
@@ -26,12 +28,19 @@ function PageNavigation(
       <div className="flex items-center gap-5 relative z-2">
         <SortableContainer items={pageList} onDragStart={handleOnDragStart} onSort={onSort}>
           {(page) => (
-            <Button 
-              PrependIcon={page.icon} 
-              variant={page.selected ? 'default' : 'tonal'}
-            >
-              {page.title}
-            </Button>
+            <ButtonGroup>
+              <Button 
+                PrependIcon={page.icon} 
+                variant={page.selected ? 'default' : 'tonal'}
+              >
+                {page.title}
+              </Button>
+              <>{page.selected && (
+                <Button>
+                  <BiDotsVerticalRounded />
+                </Button>
+              )}</>
+            </ButtonGroup>
           )}
         </SortableContainer>
       </div>
