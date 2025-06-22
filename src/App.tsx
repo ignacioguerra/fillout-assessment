@@ -25,6 +25,34 @@ function App() {
     setPageList(newPageList)
   }
 
+  const getDefaultPageTitle = () => {
+    let newTitle = 'New Page'
+    const newPagesCount = pageList.filter(page => page.title.startsWith(newTitle)).length
+    if(newPagesCount > 0) {
+      newTitle = `${newTitle} (${newPagesCount})`
+    }
+    return newTitle
+  }
+
+  const handleAddPage = (index?: number) => {
+    const newPage = {
+      id: uuidv4(),
+      title: getDefaultPageTitle(),
+      selected: false,
+      icon: IoDocumentTextOutline
+    };
+
+    setPageList(prevList => {
+      if (index !== undefined) {
+        const newList = [...prevList];
+        newList.splice(index, 0, newPage);
+        return newList;
+      } else {
+        return [...prevList, newPage];
+      }
+    });
+  };
+
   return (
     <>
       <div className="flex flex-col gap-5 p-5 min-h-[100vh]">
@@ -33,6 +61,7 @@ function App() {
           <PageNavigation pageList={pageList}
             onPageSelected={handlePageSelected}
             onSort={handleOnSort}
+            onAddPage={handleAddPage}
           />
         </div>
       </div>

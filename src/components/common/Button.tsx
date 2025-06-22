@@ -31,7 +31,7 @@ function Button({ children, variant = 'default', PrependIcon, onClick }: ButtonP
         ">
           <PrependIcon />
         </span>}
-        <span className="block text-sm text-black transition-all duration-100
+        <span className="block text-sm text-black transition-all duration-100 truncate
           group-[.variant-tonal]:group-not-active:group-not-focus-visible:text-gray-500
         ">
           {children}
