@@ -4,9 +4,10 @@ type ButtonProps = {
   children?: React.ReactNode;
   variant?: 'tonal' | 'default'
   PrependIcon?: IconType;
+  onClick?: () => void;
 };
 
-function Button({ children, variant = 'default', PrependIcon }: ButtonProps) {
+function Button({ children, variant = 'default', PrependIcon, onClick }: ButtonProps) {
 
   return (
     <button className={`group bg-white rounded-lg cursor-pointer outline-0
@@ -16,7 +17,9 @@ function Button({ children, variant = 'default', PrependIcon }: ButtonProps) {
       focus-visible:ring-secondary/25 focus-visible:ring-2
       [.variant-tonal]:not-active:not-focus-visible:shadow-none
       variant-${variant}
-    `}>
+    `}
+    onClick={onClick}
+    >
       <span className="flex items-center rounded-lg gap-1.5 pl-2.5 pr-3 py-1.25 transition-all duration-100 h-full w-full
         bg-white hover:bg-gray-50 group-focus-visible:bg-white active:bg-white
         group-[.variant-tonal]:group-not-active:group-not-focus-visible:bg-gray-300/15
