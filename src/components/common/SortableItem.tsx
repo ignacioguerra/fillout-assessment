@@ -1,5 +1,5 @@
 import { useSortable } from "@dnd-kit/sortable";
-import {CSS, type Transform} from '@dnd-kit/utilities';
+import {CSS} from '@dnd-kit/utilities';
 
 function SortableItem({ children, id }: { children: React.ReactNode, id: string }) {
   const {
@@ -9,9 +9,13 @@ function SortableItem({ children, id }: { children: React.ReactNode, id: string 
     transition, 
   } = useSortable({
     id: id,
+    transition: {
+      duration: 350,
+      easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
+    },
   });
   const style = {
-    transform: CSS.Translate.toString({...transform, y: 0} as Transform),
+    transform: CSS.Translate.toString(transform),
     transition,
   };
   return (

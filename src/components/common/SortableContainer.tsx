@@ -1,23 +1,36 @@
-import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors, type DragEndEvent, type DragStartEvent } from '@dnd-kit/core';
+import { closestCenter, DndContext, DragOverlay, KeyboardSensor, MouseSensor, TouchSensor, useSensor, useSensors, type DragEndEvent, type DragStartEvent } from '@dnd-kit/core';
 import {arrayMove, horizontalListSortingStrategy, SortableContext, sortableKeyboardCoordinates} from '@dnd-kit/sortable';
 import { useState, type ReactNode, useEffect } from 'react';
 import SortableItem from './SortableItem';
+import { restrictToHorizontalAxis, restrictToParentElement } from '@dnd-kit/modifiers';
 
 type SortableItem = {
   id: string;
 }
 
 function SortableContainer<T extends SortableItem>(
-  { items, children, onDragStart, onSort }: { 
+  { items, children, onDragStart, onDragEnd, onSort }: { 
     items: T[], 
-    children: (item: T) => ReactNode,
+    children: (item: T, settings?: { overlay?:boolean }) => ReactNode,
     onDragStart?: (itemId: string) => void,
+    onDragEnd?: () => void,
     onSort?: (newItems: T[]) => void
   }
 ) {
   const [sortableItems, setSortableItems] = useState([...items]);
+  const [activeItem, setActiveItem] = useState<T | null>(null);
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(MouseSensor, {
+      activationConstraint: {
+        distance: 10,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 250,
+        tolerance: 5,
+      },
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
@@ -28,22 +41,27 @@ function SortableContainer<T extends SortableItem>(
   }, [items]);
 
   function handleDragEnd(event: DragEndEvent) {
+    setActiveItem(null);
     const {active, over} = event;
     if (over?.id && active.id !== over.id) {
       const oldIndex = sortableItems.findIndex((item: SortableItem) => item.id === active.id);
       const newIndex = sortableItems.findIndex((item: SortableItem) => item.id === over.id);
       onSort?.(arrayMove(sortableItems, oldIndex, newIndex));
     }
+    onDragEnd?.()
   }
 
   function handleDragStart(event: DragStartEvent) {
     const draggedItemId = event.active.id as string;
+    const activeItem = items.find(item => item.id === draggedItemId)
+    setActiveItem(activeItem??null);
     onDragStart?.(draggedItemId);
   }
 
   return (
     <DndContext
       sensors={sensors}
+      modifiers={[restrictToHorizontalAxis,restrictToParentElement]}
       collisionDetection={closestCenter}
       onDragEnd={handleDragEnd}
       onDragStart={handleDragStart}
@@ -55,6 +73,9 @@ function SortableContainer<T extends SortableItem>(
           </SortableItem>
         ))}
       </SortableContext>
+      <DragOverlay>
+        {activeItem && children(activeItem, { overlay: true })}
+      </DragOverlay>
     </DndContext>
   )
 }

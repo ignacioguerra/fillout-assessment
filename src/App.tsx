@@ -21,7 +21,7 @@ function App() {
     );
   };
 
-  const handleOnSort = (newPageList: PageList) => {
+  const handleSort = (newPageList: PageList) => {
     setPageList(newPageList)
   }
 
@@ -56,11 +56,11 @@ function App() {
   return (
     <>
       <div className="flex flex-col gap-5 p-5 min-h-[100vh]">
-        <div className="flex-1 bg-gray-100/50 rounded-2xl" />
-        <div className="flex justify-start">
+        <div className="flex-1 bg-[#16213a] rounded-2xl" />
+        <div className="flex justify-start overflow-auto">
           <PageNavigation pageList={pageList}
             onPageSelected={handlePageSelected}
-            onSort={handleOnSort}
+            onSort={handleSort}
             onAddPage={handleAddPage}
           />
         </div>
