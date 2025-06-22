@@ -11,7 +11,7 @@ type SortableItem = {
 function SortableContainer<T extends SortableItem>(
   { items, children, onDragStart, onDragEnd, onSort }: { 
     items: T[], 
-    children: (item: T, settings?: { overlay?:boolean }) => ReactNode,
+    children: (item: T, settings?: { isOverlay?:boolean }) => ReactNode,
     onDragStart?: (itemId: string) => void,
     onDragEnd?: () => void,
     onSort?: (newItems: T[]) => void
@@ -74,7 +74,7 @@ function SortableContainer<T extends SortableItem>(
         ))}
       </SortableContext>
       <DragOverlay>
-        {activeItem && children(activeItem, { overlay: true })}
+        {activeItem && children(activeItem, { isOverlay: true })}
       </DragOverlay>
     </DndContext>
   )
