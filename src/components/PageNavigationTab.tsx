@@ -4,16 +4,19 @@ import ButtonGroup from './common/ButtonGroup';
 import { BiDotsVerticalRounded } from 'react-icons/bi';
 import { useRef, useState } from 'react';
 import PageNavigationTabSettings from './PageNavigationTabSettings'
+import PageNavigationAddButton from './PageNavigationAddButton';
 
 type PageNavigationProps = {
-  page: PageItem;
-  isDragging?: boolean;
-  onSelect?: (pageId: string) => void;
-};
+  page: PageItem
+  isDragging?: boolean
+  withAddAfterButton?:boolean
+  onSelect?: (pageId: string) => void
+  onAddAfter?: (pageId: string) => void
+};    
 
 type ReactEvent = React.PointerEvent | React.MouseEvent | React.KeyboardEvent;
 
-function PageNavigation({ page, onSelect, isDragging }: PageNavigationProps) {
+function PageNavigation({ page, onSelect, isDragging, withAddAfterButton, onAddAfter }: PageNavigationProps) {
   const [ isMenuVisible, setIsMenuVisible ] = useState(false)
   const nextIsMenuVisible = useRef(!isMenuVisible)
 
@@ -48,9 +51,12 @@ function PageNavigation({ page, onSelect, isDragging }: PageNavigationProps) {
     }
     stop(e);
   }
+  const handleAddAfterClick = () => {
+    onAddAfter?.(page.id)
+  }
 
   return (
-    <div className="relative">
+    <div className="relative flex">
       <ButtonGroup>
         <Button 
           PrependIcon={page.icon} 
@@ -71,22 +77,19 @@ function PageNavigation({ page, onSelect, isDragging }: PageNavigationProps) {
           </Button>
         )}</>
       </ButtonGroup>
-      {/* <div onMouseDown={stop}>
-      <Button>
-        +
-      </Button>
-      </div> */}
       { isMenuVisible &&
         <div className="absolute left-0 bottom-full -translate-y-2 select-none"
           onPointerDown={stop}
+          onMouseDown={stop}
           onKeyDown={handleMenuKeyDown}
           onBlur={handleMenuBlur}
         >
-          <div className="motion-safe:animate-fade">
+          <div className="motion-safe:animate-popover">
             <PageNavigationTabSettings />
           </div>
         </div>
       }
+      { withAddAfterButton && <PageNavigationAddButton pageTitle={page.title} onClick={handleAddAfterClick}/> }
     </div>
   )
 }

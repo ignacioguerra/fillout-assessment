@@ -45,7 +45,7 @@ function App() {
     setPageList(prevList => {
       if (index !== undefined) {
         const newList = [...prevList];
-        newList.splice(index, 0, newPage);
+        newList.splice(index+1, 0, newPage);
         return newList;
       } else {
         return [...prevList, newPage];

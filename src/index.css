@@ -14,10 +14,15 @@
   --color-gray-400: #8C93A1;
   --color-gray-500: #677289;
 
-  --animate-fade: fade 200ms ease;
+  --animate-fade: fade 400ms ease-in-out;
+  --animate-popover: popover 200ms ease;
   --animate-drag: drag 800ms ease-out alternate infinite;
 
   @keyframes fade {
+    from { opacity: 0;}
+    to { opacity: 1;}
+  }
+  @keyframes popover {
     from { opacity: 0; transform: translateY(0.5rem);}
     to { opacity: 1; transform: none;}
   }
