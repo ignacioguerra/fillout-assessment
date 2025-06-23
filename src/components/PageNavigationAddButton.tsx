@@ -8,12 +8,12 @@ type PageNavigationAddButtonProps = {
 function PageNavigationAddButton({ pageTitle, onClick }: PageNavigationAddButtonProps) {
 
   return (
-    <div className="group relative w-5 hover:w-10 has-focus-visible:w-10 transition-all duration-200 overflow-clip">
+    <div className="group relative w-8 hover:w-13 active:w-13 md:w-5 md:hover:w-10 md:active:w-10 has-focus-visible:w-10 transition-all duration-200 overflow-clip">
       <button className="absolute inset-0 m-auto w-4 h-4 transition-all duration-200
         flex justify-center items-center rounded-full shadow-xs cursor-pointer outline-0
         bg-white hover:bg-gray-50 focus-visible:bg-white active:bg-white
         border-1 border-gray-100 active:border-gray-100  focus-visible:border-secondary     
-        scale-0 group-hover:scale-100 focus-visible:scale-100"
+        scale-0 group-hover:scale-100 group-active:scale-100 focus-visible:scale-100"
         onClick={onClick}
         onMouseDown={(e) => e.preventDefault()}
         onKeyDown={(e) => e.stopPropagation()}
