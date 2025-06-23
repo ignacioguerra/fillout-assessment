@@ -42,7 +42,7 @@ function PageSettings() {
 
   return (
     <section
-      className="flex flex-col min-w-60 bg-white border-1 border-gray-100 rounded-xl overflow-clip shadow-xs"
+      className="flex flex-col min-w-60 bg-white border-1 border-gray-100 rounded-xl overflow-clip shadow-xs outline-0"
       ref={containerRef}
       tabIndex={0}
     >

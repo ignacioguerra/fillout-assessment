@@ -38,18 +38,21 @@ function App() {
     const newPage = {
       id: uuidv4(),
       title: getDefaultPageTitle(),
-      selected: false,
+      selected: true,
       icon: IoDocumentTextOutline
     }
 
     setPageList(prevList => {
+      const newList = prevList.map(page => ({
+        ...page,
+        selected: false
+      }))
       if (index !== undefined) {
-        const newList = [...prevList]
         newList.splice(index+1, 0, newPage)
-        return newList
       } else {
-        return [...prevList, newPage]
+        newList.push(newPage)
       }
+      return newList
     })
   }
 

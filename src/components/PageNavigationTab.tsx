@@ -2,7 +2,7 @@ import Button from './common/Button'
 import type { PageItem } from '../types/pages'
 import ButtonGroup from './common/ButtonGroup'
 import { BiDotsVerticalRounded } from 'react-icons/bi'
-import { useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import PageSettings from './PageSettings'
 import PageNavigationAddButton from './PageNavigationAddButton'
 
@@ -18,13 +18,16 @@ type ReactEvent = React.PointerEvent | React.MouseEvent | React.KeyboardEvent
 
 function PageNavigationTab({ page, onSelect, isDragging, withAddAfterButton, onAddAfter }: PageNavigationTabProps) {
   const [ isMenuVisible, setIsMenuVisible ] = useState(false)
-  // We use nextIsMenuVisible to avoid immediately reopening the menu when the settings button
-  // is clicked right after the menu was closed by a blur event. This helps prevent unwanted
-  // toggling due to the sequence of pointer and blur events in React.
-  const nextIsMenuVisible = useRef(!isMenuVisible)
+
+  useEffect(() => {
+    setIsMenuVisible(false)
+  },[page])
 
   const stop = (e: ReactEvent) => {
     e.stopPropagation()
+  }
+  const prevent = (e: React.PointerEvent) => {
+    e.preventDefault();
   }
   const handlePageButtonClick = () => {
     onSelect?.(page.id)
@@ -32,13 +35,8 @@ function PageNavigationTab({ page, onSelect, isDragging, withAddAfterButton, onA
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if(!page.selected) stop(e)
   }
-  const handleSettingsPointerDown = () => {
-    nextIsMenuVisible.current = !isMenuVisible
-  }
   const handleSettingsButtonClick = (e: React.MouseEvent) => {
-    if(nextIsMenuVisible.current !== isMenuVisible) {
-      setIsMenuVisible(nextIsMenuVisible.current)
-    }
+    setIsMenuVisible(!isMenuVisible)
     stop(e)
   }
   const handleMenuBlur = (e: React.FocusEvent) => {
@@ -71,8 +69,8 @@ function PageNavigationTab({ page, onSelect, isDragging, withAddAfterButton, onA
         </Button>
         <>{page.selected && (
           <Button
-            onPointerDown={handleSettingsPointerDown}
             onClick={handleSettingsButtonClick}
+            onPointerDown={prevent}
             onKeyDown={stop}
           >
             <span className="text-gray-300 text-base"><BiDotsVerticalRounded /></span>
