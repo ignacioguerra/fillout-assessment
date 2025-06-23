@@ -76,7 +76,7 @@ function App() {
 
   return (
     <>
-      <div className="px-5 py-3 h-[100vh]">
+      <div className="px-5 py-3 h-[100dvh]">
         <div className="flex flex-col py-2 h-full gap-5 overflow-x-auto">
           <div className="flex-1 bg-[#16213a] rounded-2xl text-white flex items-center justify-center font-bold text-4xl sticky left-0">
             {pageList.find(page => page.selected)?.title}
