@@ -1,11 +1,11 @@
 import { IoAdd } from 'react-icons/io5'
 
-type ButtonProps = {
+type PageNavigationAddButtonProps = {
   pageTitle: string,
   onClick?: (e: React.MouseEvent) => void
-};
+}
 
-function PageNavigationAddButton({ pageTitle, onClick }: ButtonProps) {
+function PageNavigationAddButton({ pageTitle, onClick }: PageNavigationAddButtonProps) {
 
   return (
     <div className="group relative w-5 hover:w-10 has-focus-visible:w-10 transition-all duration-200 overflow-clip">

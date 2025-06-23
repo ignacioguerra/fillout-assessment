@@ -1,17 +1,17 @@
-import { IoFlag } from 'react-icons/io5';
-import { useEffect, useRef } from 'react';
-import { HiOutlineTrash } from 'react-icons/hi';
-import { LuClipboard, LuPenLine } from 'react-icons/lu';
-import { PiCopyBold } from 'react-icons/pi';
+import { IoFlag } from 'react-icons/io5'
+import { useEffect, useRef } from 'react'
+import { HiOutlineTrash } from 'react-icons/hi'
+import { LuClipboard, LuPenLine } from 'react-icons/lu'
+import { PiCopyBold } from 'react-icons/pi'
 
-function PageNavigation() {
-  const containerRef = useRef(null);
+function PageSettings() {
+  const containerRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
     if (containerRef.current) {
-      (containerRef.current as HTMLElement).focus();
+      containerRef.current.focus()
     }
-  }, []);
+  }, [])
 
   const items = [
     {
@@ -63,14 +63,14 @@ function PageNavigation() {
       </div>
       <div className="px-1 py-1.5 flex flex-col">
         <button
-          className="flex items-center gap-2.5 px-2 py-1 text-left hover:bg-gray-50 rounded cursor-pointer text-danger"
+          className="flex items-center gap-2.5 px-2 py-2 text-left hover:bg-gray-50 rounded cursor-pointer text-danger"
         >
           <HiOutlineTrash />
           <span className="text-sm">Delete</span>
         </button>
-    </div>
+      </div>
     </section>
   )
 }
 
-export default PageNavigation
+export default PageSettings

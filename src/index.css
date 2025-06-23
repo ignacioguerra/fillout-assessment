@@ -14,27 +14,11 @@
   --color-gray-400: #8C93A1;
   --color-gray-500: #677289;
 
-  --animate-fade: fade 400ms ease-in-out;
   --animate-popover: popover 200ms ease;
-  --animate-drag: drag 800ms ease-out alternate infinite;
 
-  @keyframes fade {
-    from { opacity: 0;}
-    to { opacity: 1;}
-  }
   @keyframes popover {
     from { opacity: 0; transform: translateY(0.5rem);}
     to { opacity: 1; transform: none;}
-  }
-  @keyframes drag {
-    0%, 100% {
-      transform: translateY(0);
-      animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
-    }
-    50% {
-      transform: translateY(-25%);
-      animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
-    }
   }
 }
 

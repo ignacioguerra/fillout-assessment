@@ -1,8 +1,8 @@
-import { v4 as uuidv4 } from 'uuid';
-import { useState } from 'react';
-import PageNavigation from './components/PageNavigation';
-import type { PageList } from './types/pages';
-import { IoCheckmarkCircleOutline, IoDocumentTextOutline, IoInformationCircleOutline } from 'react-icons/io5';
+import { v4 as uuidv4 } from 'uuid'
+import { useState } from 'react'
+import PageNavigation from './components/PageNavigation'
+import type { PageList } from './types/pages'
+import { IoCheckmarkCircleOutline, IoDocumentTextOutline, IoInformationCircleOutline } from 'react-icons/io5'
 
 function App() {
   const [pageList, setPageList] = useState<PageList>([
@@ -10,7 +10,7 @@ function App() {
     { id: uuidv4(), title: 'Details', selected: false, icon: IoDocumentTextOutline },
     { id: uuidv4(), title: 'Other', selected: false, icon: IoDocumentTextOutline },
     { id: uuidv4(), title: 'Ending', selected: false, icon: IoCheckmarkCircleOutline },
-  ]);
+  ])
 
   const handlePageSelected = (pageId: string) => {
     setPageList(prevList => 
@@ -18,8 +18,8 @@ function App() {
         ...page,
         selected: page.id === pageId
       }))
-    );
-  };
+    )
+  }
 
   const handleSort = (newPageList: PageList) => {
     setPageList(newPageList)
@@ -40,18 +40,18 @@ function App() {
       title: getDefaultPageTitle(),
       selected: false,
       icon: IoDocumentTextOutline
-    };
+    }
 
     setPageList(prevList => {
       if (index !== undefined) {
-        const newList = [...prevList];
-        newList.splice(index+1, 0, newPage);
-        return newList;
+        const newList = [...prevList]
+        newList.splice(index+1, 0, newPage)
+        return newList
       } else {
-        return [...prevList, newPage];
+        return [...prevList, newPage]
       }
-    });
-  };
+    })
+  }
 
   return (
     <>

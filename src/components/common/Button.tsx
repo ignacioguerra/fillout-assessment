@@ -7,7 +7,7 @@ type ButtonProps = {
   onClick?: (e: React.MouseEvent) => void
   onPointerDown?: (e: React.PointerEvent) => void
   onKeyDown?: (e: React.KeyboardEvent) => void
-};
+}
 
 function Button({ children, variant = 'default', PrependIcon, onClick, onKeyDown, onPointerDown }: ButtonProps) {
 

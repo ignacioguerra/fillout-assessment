@@ -1,17 +1,18 @@
 import Button from './common/Button'
-import { IoAdd } from "react-icons/io5";
-import type { PageList } from '../types/pages';
-import SortableContainer from './common/SortableContainer';
-import { useState } from 'react';
+import { IoAdd } from "react-icons/io5"
+import type { PageList } from '../types/pages'
+import SortableGroup from './common/SortableGroup'
+import { useState } from 'react'
 import PageNavigationTab from './PageNavigationTab'
 
-function PageNavigation(
-  { pageList, onPageSelected, onSort, onAddPage }: { 
-    pageList: PageList;
-    onPageSelected?: (pageId: string) => void;
-    onSort?: (pageList: PageList) => void;
-    onAddPage?: (index?: number) => void;
-  }) {
+type PageNavigationProps = {
+  pageList: PageList
+  onPageSelected?: (pageId: string) => void
+  onSort?: (pageList: PageList) => void
+  onAddPage?: (index?: number) => void
+}
+
+function PageNavigation({ pageList, onPageSelected, onSort, onAddPage }:PageNavigationProps) {
   const [ draggingPageId, setDraggingPageId ] = useState<string|null>(null)
   
   const handleDragStart = (pageId: string) => {
@@ -27,7 +28,7 @@ function PageNavigation(
   }
 
   const handleAddAfter = (pageId: string) => {
-    const index = pageList.findIndex(page => page.id === pageId);
+    const index = pageList.findIndex(page => page.id === pageId)
     onAddPage?.(index)
   }
 
@@ -43,14 +44,13 @@ function PageNavigation(
     <div className="flex items-center gap-5 relative">
       <div className="absolute border-t-1 border-gray-200 border-dashed top-1/2 left-0 right-0" />
       <div className="flex items-center relative z-2">
-        <SortableContainer items={pageList} onDragStart={handleDragStart} onDragEnd={handleDragEnd} onSort={handleSort}>
+        <SortableGroup items={pageList} onDragStart={handleDragStart} onDragEnd={handleDragEnd} onSort={handleSort}>
           {(page, { isOverlay } = { isOverlay: false }) => {
             const isDragging = page.id === draggingPageId
             const isShadow = isDragging && !isOverlay
             return (
               <div className={`
                 ${isShadow ? 'opacity-0' : ''}
-                ${isOverlay ? 'motion-safe:animate-drag' : 'motion-safe:animate-fade'}
               `}>
                 <PageNavigationTab
                   page={page}
@@ -62,7 +62,7 @@ function PageNavigation(
               </div>
             )
           }}
-        </SortableContainer>
+        </SortableGroup>
       </div>
       <div className="relative z-1">
         <Button onClick={handleAddPageButtonClick}>

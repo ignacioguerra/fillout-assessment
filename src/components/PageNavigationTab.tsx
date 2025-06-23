@@ -1,23 +1,26 @@
 import Button from './common/Button'
-import type { PageItem } from '../types/pages';
-import ButtonGroup from './common/ButtonGroup';
-import { BiDotsVerticalRounded } from 'react-icons/bi';
-import { useRef, useState } from 'react';
-import PageNavigationTabSettings from './PageNavigationTabSettings'
-import PageNavigationAddButton from './PageNavigationAddButton';
+import type { PageItem } from '../types/pages'
+import ButtonGroup from './common/ButtonGroup'
+import { BiDotsVerticalRounded } from 'react-icons/bi'
+import { useRef, useState } from 'react'
+import PageSettings from './PageSettings'
+import PageNavigationAddButton from './PageNavigationAddButton'
 
-type PageNavigationProps = {
+type PageNavigationTabProps = {
   page: PageItem
   isDragging?: boolean
   withAddAfterButton?:boolean
   onSelect?: (pageId: string) => void
   onAddAfter?: (pageId: string) => void
-};    
+}    
 
-type ReactEvent = React.PointerEvent | React.MouseEvent | React.KeyboardEvent;
+type ReactEvent = React.PointerEvent | React.MouseEvent | React.KeyboardEvent
 
-function PageNavigation({ page, onSelect, isDragging, withAddAfterButton, onAddAfter }: PageNavigationProps) {
+function PageNavigationTab({ page, onSelect, isDragging, withAddAfterButton, onAddAfter }: PageNavigationTabProps) {
   const [ isMenuVisible, setIsMenuVisible ] = useState(false)
+  // We use nextIsMenuVisible to avoid immediately reopening the menu when the settings button
+  // is clicked right after the menu was closed by a blur event. This helps prevent unwanted
+  // toggling due to the sequence of pointer and blur events in React.
   const nextIsMenuVisible = useRef(!isMenuVisible)
 
   const stop = (e: ReactEvent) => {
@@ -26,10 +29,10 @@ function PageNavigation({ page, onSelect, isDragging, withAddAfterButton, onAddA
   const handlePageButtonClick = () => {
     onSelect?.(page.id)
   }
-  const hanldeKeyDown = (e: React.KeyboardEvent) => {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
     if(!page.selected) stop(e)
   }
-  const handleSettingsPointerDown = (e: React.PointerEvent) => {
+  const handleSettingsPointerDown = () => {
     nextIsMenuVisible.current = !isMenuVisible
   }
   const handleSettingsButtonClick = (e: React.MouseEvent) => {
@@ -49,7 +52,7 @@ function PageNavigation({ page, onSelect, isDragging, withAddAfterButton, onAddA
     if (e.key === 'Escape') {
       setIsMenuVisible(false)
     }
-    stop(e);
+    stop(e)
   }
   const handleAddAfterClick = () => {
     onAddAfter?.(page.id)
@@ -62,7 +65,7 @@ function PageNavigation({ page, onSelect, isDragging, withAddAfterButton, onAddA
           PrependIcon={page.icon} 
           variant={(page.selected || isDragging) ? 'default' : 'tonal'}
           onClick={handlePageButtonClick}
-          onKeyDown={hanldeKeyDown}
+          onKeyDown={handleKeyDown}
         >
           {page.title}
         </Button>
@@ -85,7 +88,7 @@ function PageNavigation({ page, onSelect, isDragging, withAddAfterButton, onAddA
           onBlur={handleMenuBlur}
         >
           <div className="motion-safe:animate-popover">
-            <PageNavigationTabSettings />
+            <PageSettings />
           </div>
         </div>
       }
@@ -94,4 +97,4 @@ function PageNavigation({ page, onSelect, isDragging, withAddAfterButton, onAddA
   )
 }
 
-export default PageNavigation
+export default PageNavigationTab
