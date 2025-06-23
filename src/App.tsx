@@ -26,9 +26,14 @@ function App() {
   }
 
   const createPage = () => {
+    const baseName = 'Page'
+    const otherNamedPages = pageList.filter(page => page.title.startsWith(baseName))
+    const usedNumbers = otherNamedPages.map(page => parseInt(page.title.split(baseName)[1]))
+    console.log(usedNumbers)
+    const maxNumber = Math.max(0,...usedNumbers)
     return {
       id: uuidv4(),
-      title: 'Other',
+      title: `${baseName} ${maxNumber+1}`,
       selected: true,
       icon: IoDocumentTextOutline
     }
