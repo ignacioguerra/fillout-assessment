@@ -19,7 +19,6 @@ function PageNavigation() {
       label: 'Set as first page',
       action: () => console.log('Set as first page clicked'),
       icon: <IoFlag className="text-secondary" />,
-      ref: containerRef
     },
     {
       id: 'rename',
@@ -44,6 +43,8 @@ function PageNavigation() {
   return (
     <section
       className="flex flex-col min-w-60 bg-white border-1 border-gray-100 rounded-xl overflow-clip shadow-xs"
+      ref={containerRef}
+      tabIndex={0}
     >
       <header className="px-3 py-2 bg-gray-50 border-b-1 border-gray-100 font-medium">
         <h3>Settings</h3>
@@ -52,7 +53,6 @@ function PageNavigation() {
         {items.map((item) => (
           <button
             key={item.id}
-            ref={item.ref}
             onClick={item.action}
             className="flex items-center gap-2.5 px-2 py-2 text-left hover:bg-gray-50 rounded cursor-pointer"
           >

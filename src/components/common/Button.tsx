@@ -1,14 +1,15 @@
-import type { IconType } from 'react-icons';
+import type { IconType } from 'react-icons'
 
 type ButtonProps = {
-  children?: React.ReactNode;
+  children?: React.ReactNode
   variant?: 'tonal' | 'default'
-  PrependIcon?: IconType;
-  onClick?: (e: React.MouseEvent) => void;
-  onKeyDown?: (e: React.KeyboardEvent) => void;
+  PrependIcon?: IconType
+  onClick?: (e: React.MouseEvent) => void
+  onPointerDown?: (e: React.PointerEvent) => void
+  onKeyDown?: (e: React.KeyboardEvent) => void
 };
 
-function Button({ children, variant = 'default', PrependIcon, onClick, onKeyDown }: ButtonProps) {
+function Button({ children, variant = 'default', PrependIcon, onClick, onKeyDown, onPointerDown }: ButtonProps) {
 
   return (
     <button className={`group bg-white rounded-lg cursor-pointer outline-0
@@ -23,6 +24,7 @@ function Button({ children, variant = 'default', PrependIcon, onClick, onKeyDown
     `}
     onClick={onClick}
     onKeyDown={onKeyDown}
+    onPointerDown={onPointerDown}
     >
       <span className="flex items-center rounded-lg gap-1.5 pl-2.5 pr-2.5 py-1.25 transition-colors duration-200 h-full w-full
         bg-white hover:bg-gray-50 group-focus-visible:bg-white active:bg-white

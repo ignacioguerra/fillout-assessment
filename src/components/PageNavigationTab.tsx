@@ -2,7 +2,7 @@ import Button from './common/Button'
 import type { PageItem } from '../types/pages';
 import ButtonGroup from './common/ButtonGroup';
 import { BiDotsVerticalRounded } from 'react-icons/bi';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import PageNavigationTabSettings from './PageNavigationTabSettings'
 
 type PageNavigationProps = {
@@ -15,51 +15,38 @@ type ReactEvent = React.PointerEvent | React.MouseEvent | React.KeyboardEvent;
 
 function PageNavigation({ page, onSelect, isDragging }: PageNavigationProps) {
   const [ isMenuVisible, setIsMenuVisible ] = useState(false)
-
-  // useEffect(() => {
-  //   const closeMenu = () => setIsMenuVisible(false)
-  //   window.addEventListener('pointerdown', closeMenu)
-  //   return () => {
-  //     window.removeEventListener('pointerdown', closeMenu)
-  //   };
-  // }, [isMenuVisible])
+  const nextIsMenuVisible = useRef(!isMenuVisible)
 
   const stop = (e: ReactEvent) => {
     e.stopPropagation()
   }
-  const openMenu =  () => {
-    setIsMenuVisible(true)
-  }
-  const closeMenu = () => {
-    setIsMenuVisible(false)
-  }
-  const toggleMenu = () => {
-    setIsMenuVisible(!isMenuVisible)
-  }
-
   const handlePageButtonClick = () => {
     onSelect?.(page.id)
   }
-
   const hanldeKeyDown = (e: React.KeyboardEvent) => {
     if(!page.selected) stop(e)
   }
-
+  const handleSettingsPointerDown = (e: React.PointerEvent) => {
+    nextIsMenuVisible.current = !isMenuVisible
+  }
   const handleSettingsButtonClick = (e: React.MouseEvent) => {
-    toggleMenu()
+    if(nextIsMenuVisible.current !== isMenuVisible) {
+      setIsMenuVisible(nextIsMenuVisible.current)
+    }
     stop(e)
   }
-
-  const handleSettingsButtonKeyDown = (e: React.KeyboardEvent) => {
-    console.log("Add")
-    stop(e)
-  }
-
   const handleMenuBlur = (e: React.FocusEvent) => {
     const parent = e.currentTarget
     if (!parent.contains(e.relatedTarget)) {
-      closeMenu()
+      setIsMenuVisible(false)
     }
+    e.preventDefault()
+  }
+  const handleMenuKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      setIsMenuVisible(false)
+    }
+    stop(e);
   }
 
   return (
@@ -74,9 +61,13 @@ function PageNavigation({ page, onSelect, isDragging }: PageNavigationProps) {
           {page.title}
         </Button>
         <>{page.selected && (
-          <Button onClick={handleSettingsButtonClick} onKeyDown={handleSettingsButtonKeyDown}>
+          <Button
+            onPointerDown={handleSettingsPointerDown}
+            onClick={handleSettingsButtonClick}
+            onKeyDown={stop}
+          >
             <span className="text-gray-300 text-base"><BiDotsVerticalRounded /></span>
-            <span className="sr-only">Page options</span>
+            <span className="sr-only">Page settings</span>
           </Button>
         )}</>
       </ButtonGroup>
@@ -86,12 +77,14 @@ function PageNavigation({ page, onSelect, isDragging }: PageNavigationProps) {
       </Button>
       </div> */}
       { isMenuVisible &&
-        <div className="absolute left-0 bottom-full -translate-y-2"
+        <div className="absolute left-0 bottom-full -translate-y-2 select-none"
           onPointerDown={stop}
-          onKeyDown={stop}
+          onKeyDown={handleMenuKeyDown}
           onBlur={handleMenuBlur}
         >
-          <PageNavigationTabSettings />
+          <div className="motion-safe:animate-fade">
+            <PageNavigationTabSettings />
+          </div>
         </div>
       }
     </div>

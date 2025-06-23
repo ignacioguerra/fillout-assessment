@@ -43,12 +43,16 @@ function PageNavigation(
             const isDragging = page.id === draggingPageId
             const isShadow = isDragging && !isOverlay
             return (
-              <div className={`${isShadow ? 'opacity-0' : ''}`}>
-                <PageNavigationTab
-                  page={page}
-                  isDragging={isDragging}
-                  onSelect={handlePageSelect}
-                />
+              <div className={`
+                ${isShadow ? 'opacity-0' : ''}
+              `}>
+                <div className={`${isOverlay ? 'motion-safe:animate-drag' : ''}`}>
+                  <PageNavigationTab
+                    page={page}
+                    isDragging={isDragging}
+                    onSelect={handlePageSelect}
+                  />
+                </div>
               </div>
             )
           }}
