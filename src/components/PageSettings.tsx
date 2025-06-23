@@ -4,7 +4,11 @@ import { HiOutlineTrash } from 'react-icons/hi'
 import { LuClipboard, LuPenLine } from 'react-icons/lu'
 import { PiCopyBold } from 'react-icons/pi'
 
-function PageSettings() {
+type PageSettingsProps = {
+  onDelete?: () => void
+}   
+
+function PageSettings({ onDelete }: PageSettingsProps) {
   const containerRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
@@ -64,6 +68,7 @@ function PageSettings() {
       <div className="px-1 py-1.5 flex flex-col">
         <button
           className="flex items-center gap-2.5 px-2 py-2 text-left hover:bg-gray-50 rounded cursor-pointer text-danger"
+          onClick={onDelete}
         >
           <HiOutlineTrash />
           <span className="text-sm">Delete</span>

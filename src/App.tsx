@@ -25,22 +25,17 @@ function App() {
     setPageList(newPageList)
   }
 
-  const getDefaultPageTitle = () => {
-    let newTitle = 'New Page'
-    const newPagesCount = pageList.filter(page => page.title.startsWith(newTitle)).length
-    if(newPagesCount > 0) {
-      newTitle = `${newTitle} (${newPagesCount})`
-    }
-    return newTitle
-  }
-
-  const handleAddPage = (index?: number) => {
-    const newPage = {
+  const createPage = () => {
+    return {
       id: uuidv4(),
-      title: getDefaultPageTitle(),
+      title: 'Other',
       selected: true,
       icon: IoDocumentTextOutline
     }
+  }
+
+  const handleAddPage = (index?: number) => {
+    const newPage = createPage()
 
     setPageList(prevList => {
       const newList = prevList.map(page => ({
@@ -56,6 +51,24 @@ function App() {
     })
   }
 
+  const handleDeletePage = (pageId: string) => {
+    setPageList(prevList => {
+      const pageIndex = prevList.findIndex(page => page.id === pageId)
+      if (pageIndex === -1 || !prevList[pageIndex].selected) {
+        return prevList
+      }
+      const newList = prevList.filter(page => page.id !== pageId)
+      const newSelectedIndex = pageIndex > 1 ? pageIndex - 1 : 0
+      if(newList.length === 0) {
+        newList.push(createPage())
+      }
+      return newList.map((page, idx) => ({
+        ...page,
+        selected: idx === newSelectedIndex
+      }))
+    })
+  }
+
   return (
     <>
       <div className="flex flex-col gap-5 p-5 min-h-[100vh]">
@@ -67,6 +80,7 @@ function App() {
             onPageSelected={handlePageSelected}
             onSort={handleSort}
             onAddPage={handleAddPage}
+            onDeletePage={handleDeletePage}
           />
         </div>
       </div>

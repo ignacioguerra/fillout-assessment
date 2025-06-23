@@ -12,11 +12,12 @@ type PageNavigationTabProps = {
   withAddAfterButton?:boolean
   onSelect?: (pageId: string) => void
   onAddAfter?: (pageId: string) => void
+  onDeletePage?: (pageId: string) => void
 }    
 
 type ReactEvent = React.PointerEvent | React.MouseEvent | React.KeyboardEvent
 
-function PageNavigationTab({ page, onSelect, isDragging, withAddAfterButton, onAddAfter }: PageNavigationTabProps) {
+function PageNavigationTab({ page, onSelect, isDragging, withAddAfterButton, onAddAfter, onDeletePage }: PageNavigationTabProps) {
   const [ isMenuVisible, setIsMenuVisible ] = useState(false)
 
   useEffect(() => {
@@ -86,7 +87,7 @@ function PageNavigationTab({ page, onSelect, isDragging, withAddAfterButton, onA
           onBlur={handleMenuBlur}
         >
           <div className="motion-safe:animate-popover">
-            <PageSettings />
+            <PageSettings onDelete={() => onDeletePage?.(page.id)} />
           </div>
         </div>
       }

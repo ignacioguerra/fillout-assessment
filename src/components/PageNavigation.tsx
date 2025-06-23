@@ -10,9 +10,10 @@ type PageNavigationProps = {
   onPageSelected?: (pageId: string) => void
   onSort?: (pageList: PageList) => void
   onAddPage?: (index?: number) => void
+  onDeletePage?: (pageId: string) => void
 }
 
-function PageNavigation({ pageList, onPageSelected, onSort, onAddPage }:PageNavigationProps) {
+function PageNavigation({ pageList, onPageSelected, onSort, onAddPage, onDeletePage }:PageNavigationProps) {
   const [ draggingPageId, setDraggingPageId ] = useState<string|null>(null)
   
   const handleDragStart = (pageId: string) => {
@@ -57,6 +58,7 @@ function PageNavigation({ pageList, onPageSelected, onSort, onAddPage }:PageNavi
                   isDragging={isDragging}
                   onSelect={handlePageSelect}
                   onAddAfter={handleAddAfter}
+                  onDeletePage={onDeletePage}
                   withAddAfterButton={page.id !== pageList[pageList.length - 1].id}
                 />
               </div>
